@@ -36,7 +36,7 @@ function show(list) {
     `loadAlarmList(${JSON.stringify(list)})`,
   );
 
-  beep.play();
+  //beep.play();
 
   alarmWindow.on('closed', () => {
     beep.stop();

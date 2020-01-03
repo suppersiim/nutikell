@@ -14,6 +14,7 @@ const alarmName = document.querySelector('#alarm-name');
 const alarmTime = document.querySelector('#alarm-time');
 const newEditAlarmSave = document.querySelector('#new-alarm-save');
 const newEditAlarmCancel = document.querySelector('#new-alarm-cancel');
+const newEditAlarmDelete = document.querySelector('#new-alarm-delete');
 
 let currentPage = 'list';
 
@@ -180,12 +181,15 @@ function saveAlarm() {
   alarmName.value = '';
   alarmTime.value = '';
 
-  setImmediate(() => {
-    const selectedAlarmItem = document.querySelector(
-      `.collection-item[data-id="${selectedID}"]`,
-    );
-    selectedAlarmItem.classList.add('active');
-  });
+  // console.log(selectedID);
+  // if (!selectedID !== undefined) {
+  //   setImmediate(() => {
+  //     const selectedAlarmItem = document.querySelector(
+  //       `.collection-item[data-id="${selectedID}"]`,
+  //     );
+  //     selectedAlarmItem.classList.add('active');
+  //   });
+  // }
 
   gotoPage('list');
 }
@@ -194,7 +198,8 @@ function editAlarm(id) {
   newEditAlarm.querySelector('h4').textContent = 'Edit alarm';
   newEditAlarmSave.setAttribute('data-mode', 'edit');
   newEditAlarmSave.setAttribute('data-id', id);
-
+  newEditAlarmDelete.setAttribute('data-id', id);
+  
   const data = store.get(id);
   alarmName.value = data.name;
   alarmTime.value = data.time;
@@ -210,6 +215,7 @@ function editAlarm(id) {
   gotoPage('add-edit');
 }
 
+
 function deleteSelected() {
   Array.from(
     document.querySelectorAll(
@@ -220,7 +226,7 @@ function deleteSelected() {
     .forEach(id => store.remove(id));
 }
 
-document.addEventListener('keydown', (e) => {
+/* document.addEventListener('keydown', (e) => {
   if (currentPage !== 'list') return;
   if (e.ctrlKey && e.key === 'a') {
     selectAll();
@@ -240,11 +246,25 @@ document.addEventListener('keydown', (e) => {
   } else if (e.ctrlKey && e.key === 'n') {
     newAlarm();
   }
-});
+}); */
 
 newEditAlarmCancel.addEventListener('click', (e) => {
   e.preventDefault();
   gotoPage('list');
+});
+
+function deleteAlarm(id){
+  store.remove(id);
+  store.load();
+  gotoPage('list');
+}
+
+
+newEditAlarmDelete.addEventListener('click', (e) => {
+  //e.preventDefault();
+  const id  = e.target.getAttribute('data-id');
+  console.log(id);
+  deleteAlarm(id);
 });
 
 document.body.addEventListener('click', (e) => {

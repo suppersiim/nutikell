@@ -30,8 +30,10 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "asar": "^2.0.3",
     "electron": "^6.0.1",
     "electron-builder": "^21.2.0",
+    "electron-packager": "^14.1.1",
     "env-cmd": "^9.0.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
